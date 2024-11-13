@@ -10,7 +10,9 @@
 </head>
 <body>
     {% block content %}
-        {{ context }}
+        {% if context %}
+            {{ context }}
+        {% endif %}
     {% endblock %}
 </body>
 </html>

@@ -2,9 +2,9 @@ from django.db import models
 
 
 class Author(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     email = models.EmailField()
-    age = models.IntegerField()
+    age = models.PositiveSmallIntegerField(default=0)
     created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -12,8 +12,8 @@ class Author(models.Model):
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField()
+    title = models.CharField(max_length=100, unique=True)
+    description = models.TextField(default='', blank=True)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_date = models.DateTimeField(auto_now_add=True)
 
@@ -24,7 +24,7 @@ class Category(models.Model):
 class Recipe(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='recipes')
     title = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(default='', blank=True)
     cooking_steps = models.TextField()
     cooking_time = models.TimeField()
     image = models.ImageField()

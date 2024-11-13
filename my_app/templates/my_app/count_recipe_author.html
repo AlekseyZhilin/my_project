@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    {% if not query_res %}
+        <p>По выбранному условию нет данных</p>
+    {% endif %}
+    <table>
+        {% for line in query_res %}
+        <tr>
+            <td>{{ line.authors__name }}</td>
+            <td>{{ line.total }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
