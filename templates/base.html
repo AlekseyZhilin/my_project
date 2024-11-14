@@ -1,3 +1,4 @@
+{% load common_tags %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -9,6 +10,10 @@
     </title>
 </head>
 <body>
+    <header>
+        {% show_top_menu %}
+    </header>
+
     {% block content %}
         {% if context %}
             {{ context }}

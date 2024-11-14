@@ -5,12 +5,16 @@
 {% endblock %}
 
 {% block content %}
-    <table>
-        {% for category in categories %}
-        <tr>
-            <td>{{ category.title }}</td>
-            <td>{{ category.description }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    {% if categories %}
+        <table>
+            {% for category in categories %}
+            <tr>
+                <td>{{ category.title }}</td>
+                <td>{{ category.description }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <div> <p> К сожалению, категорий пока нет </p> </div>
+    {% endif %}
 {% endblock %}

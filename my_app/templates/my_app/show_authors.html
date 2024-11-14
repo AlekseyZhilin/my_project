@@ -5,13 +5,17 @@
 {% endblock %}
 
 {% block content %}
-    <table>
-        {% for author in authors %}
-        <tr>
-            <td>{{ author.name }}</td>
-            <td>{{ author.email }}</td>
-            <td>{{ author.age }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+    {% if authors %}
+        <table>
+            {% for author in authors %}
+            <tr>
+                <td>{{ author.name }}</td>
+                <td>{{ author.email }}</td>
+                <td>{{ author.age }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <div> <p> К сожалению, авторов пока нет </p> </div>
+    {% endif %}
 {% endblock %}

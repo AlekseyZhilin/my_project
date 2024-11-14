@@ -77,3 +77,11 @@ def add_category(request):
         message = 'Заполните данные'
 
     return render(request, 'my_app/enter_param_form.html', {'form': form, 'message': message})
+
+
+def show_recipes(request):
+    recipes = Recipe.objects.all()
+    context = {'title': 'Список рецептов',
+               'recipes': recipes
+               }
+    return render(request, 'my_app/show_recipes.html', context)

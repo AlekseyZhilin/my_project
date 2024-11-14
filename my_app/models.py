@@ -37,6 +37,20 @@ class Recipe(models.Model):
         return f'recipe: {self.title}, время: {self.cooking_time}, {short_text(self.cooking_steps.description)}'
 
 
+class Menu(models.Model):
+    name = models.CharField('Название', max_length=100)
+    url = models.CharField('Ссылка', max_length=100)
+    position = models.SmallIntegerField(default=1)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ('position',)
+        verbose_name = 'Пункт меню'
+        verbose_name_plural = 'Пункты меню'
+
+
 def short_text(text):
     if len(text) > 5:
         return str([word for word in text.split()[:5]]) + '...'
