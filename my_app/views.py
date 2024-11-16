@@ -20,6 +20,7 @@ def index(request):
 def show_authors(request):
     authors = Author.objects.all()
     context = {'title': 'Список авторов',
+               'columns': ('Имя', 'Возраст', 'Почта'),
                'authors': authors
                }
     return render(request, 'my_app/show_authors.html', context)

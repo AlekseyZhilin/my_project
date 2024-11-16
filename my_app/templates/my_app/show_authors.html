@@ -7,11 +7,17 @@
 {% block content %}
     {% if authors %}
         <table>
+            <tr>
+                {% for name in columns %}
+                    <td class="table_head">{{ name }}</td>
+                {% endfor %}
+            </tr>
+
             {% for author in authors %}
             <tr>
                 <td>{{ author.name }}</td>
-                <td>{{ author.email }}</td>
                 <td>{{ author.age }}</td>
+                <td>{{ author.email }}</td>
             </tr>
             {% endfor %}
         </table>

@@ -8,9 +8,11 @@
     {% if context %}
         {{ message }}
     {% endif %}
-    <form action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="submit" value="Отправить">
-    </form>
+    <div class="form_content">
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Отправить">
+        </form>
+    </div>
 {% endblock %}

@@ -1,5 +1,7 @@
-<ul class="menu">
-{% for item in menu_items %}
-    <li><a href="{{ item.url }}">{{ item.name }}</a></li>
-{% endfor %}
-</ul>
+<div class="header">
+    <nav>
+        {% for item in menu_items %}
+            <a class="link_menu" href="{{ item.url }}">{{ item.name }}</a>
+        {% endfor %}
+    </nav>
+</div>

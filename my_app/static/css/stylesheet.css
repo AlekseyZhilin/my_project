@@ -1,0 +1,62 @@
+.header
+{
+    background-color: bisque;
+    padding: 5px;
+}
+
+.link_menu {
+    background-color: burlywood;
+     padding: 10px;
+}
+
+nav {
+    display: flex;
+    justify-content: center
+}
+
+nav a:hover {
+    background-color: black;
+    color: white;
+}
+
+nav a {
+    text-decoration: none;
+    color: firebrick;
+    padding: 5px;
+    border-radius: 5px;
+    transition: 1s;
+}
+
+.container {
+    background-color: #E0FFFF;
+    padding: 10px;
+    margin: 0 auto;
+    max-width: 70%;
+    border-radius: 5px;
+}
+
+.table_head{
+    font-weight: bold;
+    background: white;
+}
+
+td{
+    border: 1px solid gray;
+    padding: 5px;
+}
+
+form {
+    background-color: lightblue;
+    border: 2px solid blue;
+    border-radius: 10px;
+    padding: 10px;
+    width: 300px;
+ }
+
+ .form_content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0 10px;
+    margin: 0;
+ }
