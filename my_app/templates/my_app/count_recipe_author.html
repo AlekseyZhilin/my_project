@@ -5,15 +5,22 @@
 {% endblock %}
 
 {% block content %}
-    {% if not query_res %}
+    {% if query_res %}
+        <table>
+            <tr>
+                {% for name in columns %}
+                    <td class="table_head">{{ name }}</td>
+                {% endfor %}
+            </tr>
+            {% for line in query_res %}
+            <tr>
+                <td>{{ line.name }}</td>
+                <td>{{ line.total }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
         <p>По выбранному условию нет данных</p>
     {% endif %}
-    <table>
-        {% for line in query_res %}
-        <tr>
-            <td>{{ line.authors__name }}</td>
-            <td>{{ line.total }}</td>
-        </tr>
-        {% endfor %}
-    </table>
+
 {% endblock %}

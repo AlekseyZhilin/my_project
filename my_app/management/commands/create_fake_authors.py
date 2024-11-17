@@ -10,8 +10,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         count_authors = kwargs['count_authors']
+        authors_list = []
         for i in range(1, count_authors + 1):
-            author = Author(name=f'name{i}', email=f'test{i}@mail.ru', age=25 + i)
-            author.save()
+            authors_list.append(Author(name=f'name{i}', email=f'test{i}@mail.ru', age=25 + i))
+
+        Author.objects.bulk_create(authors_list)
 
         self.stdout.write(f'create {count_authors} authors')

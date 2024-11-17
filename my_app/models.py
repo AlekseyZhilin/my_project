@@ -5,36 +5,36 @@ class Author(models.Model):
     name = models.CharField(max_length=100, unique=True)
     email = models.EmailField()
     age = models.PositiveSmallIntegerField(default=0)
-    created_date = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
-        return f'author: {self.name}, age: {self.age}, email: {self.email}'
+        return f'{self.name}, age: {self.age}, email: {self.email}'
 
 
 class Category(models.Model):
     title = models.CharField(max_length=100, unique=True)
-    description = models.TextField(default='', blank=True)
-    created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now_add=True)
+    description = models.TextField(default='')
+    created_date = models.DateTimeField(auto_now_add=True, editable=False)
+    modified_date = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
-        return f'category: {self.title}'
+        return f'{self.title}'
 
 
 class Recipe(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='recipes')
-    title = models.CharField(max_length=100)
-    description = models.TextField(default='', blank=True)
+    title = models.CharField(max_length=100, unique=True)
+    description = models.TextField(default='')
     cooking_steps = models.TextField()
     cooking_time = models.TimeField()
-    image = models.ImageField()
-    authors = models.ManyToManyField(Author, related_name='recipes_authors')
+    image = models.ImageField(default='')
+    author = models.ForeignKey(Author, on_delete=models.SET_NULL, related_name='authors', default=None, null=True)
     published = models.BooleanField(default=True)
-    created_date = models.DateTimeField(auto_now_add=True)
-    modified_date = models.DateTimeField(auto_now_add=True)
+    created_date = models.DateTimeField(auto_now_add=True, editable=False)
+    modified_date = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
-        return f'recipe: {self.title}, время: {self.cooking_time}, {short_text(self.cooking_steps.description)}'
+        return f'{self.title}, время: {self.cooking_time}'
 
 
 class Menu(models.Model):

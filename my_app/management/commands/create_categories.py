@@ -9,5 +9,5 @@ class Command(BaseCommand):
         categories = [Category(title='Первые блюда', description='Описание первых блюд'),
                       Category(title='Национальные блюда', description='Описание национальных блюд'),
                       ]
-        category = Category.objects.bulk_create(categories)
+        Category.objects.bulk_create(categories)
         self.stdout.write(f'Категории добавлены')

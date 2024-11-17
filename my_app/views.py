@@ -1,7 +1,7 @@
 from django.db.models import Count
 from django.shortcuts import render
 from . models import Author, Category, Recipe
-from . forms import SelectPramForm, CategoryForm
+from . forms import SelectPramForm, CategoryForm, RecipeForm
 import logging
 
 
@@ -31,11 +31,12 @@ def count_recipe_author(request):
         form = SelectPramForm(request.POST)
         if form.is_valid():
             count_recipe = form.cleaned_data['count_recipe']
-            query_res = (Recipe.objects.values('authors__name').annotate(total=Count('pk'))
-                         .filter(total__gte=count_recipe, published__exact=True)
+            query_res = (Author.objects.values('name').annotate(total=Count('authors__id'))
+                         .filter(total__gte=count_recipe, authors__published__exact=True)
                          .order_by('-total'))
             content = {
                 'title': 'Количество рецептов автора',
+                'columns': ('Автор', 'Кол-во рецептов'),
                 'query_res': query_res,
             }
             logger.debug('Количество рецептов автора получено')
@@ -86,3 +87,36 @@ def show_recipes(request):
                'recipes': recipes
                }
     return render(request, 'my_app/show_recipes.html', context)
+
+
+def add_recipes(request):
+    if request.method == 'POST':
+        form = RecipeForm(request.POST)
+        if form.is_valid():
+            category = form.cleaned_data['category']
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            cooking_steps = form.cleaned_data['cooking_steps']
+            cooking_time = form.cleaned_data['cooking_time']
+            image = form.cleaned_data['image']
+            published = form.cleaned_data['published']
+
+            author = Author.objects.filter(pk=1).first()
+            try:
+                recipe = Recipe(category=Category.objects.filter(id=int(category)).first(),
+                                title=title, description=description,
+                                cooking_steps=cooking_steps, cooking_time=cooking_time,
+                                author=author, published=published,
+                                image=image)
+                recipe.save()
+                message = 'Данные сохранены'
+            except Exception as err:
+                message = 'Данные не сохранены'
+        else:
+            message = 'Неверные данные'
+
+    else:
+        form = RecipeForm()
+        message = 'Заполните данные'
+
+    return render(request, 'my_app/add_recipe_form.html', {'form': form, 'message': message})
