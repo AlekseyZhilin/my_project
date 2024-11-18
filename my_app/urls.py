@@ -1,5 +1,9 @@
 from django.urls import path
-from . views import index, show_authors, count_recipe_author, show_categories, add_category, show_recipes, add_recipes
+from . views import (index,
+                     show_authors, count_recipe_author,
+                     show_categories, add_category,
+                     show_recipes, add_recipes, show_items
+                     )
 
 urlpatterns = [
     path('', index, name='index'),
@@ -9,4 +13,5 @@ urlpatterns = [
     path('categories/add', add_category, name='add_category'),
     path('recipes/show', show_recipes, name='Показать рецепты'),
     path('recipes/add', add_recipes, name='Добавить рецепт'),
+    path('recipes/items/show', show_items, name='Показать номенклатуру'),
 ]

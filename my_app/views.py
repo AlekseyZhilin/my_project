@@ -1,7 +1,7 @@
 from django.db import IntegrityError
 from django.db.models import Count
 from django.shortcuts import render
-from . models import Author, Category, Recipe
+from . models import Author, Category, Recipe, Item, Work
 from . forms import SelectPramForm, CategoryForm, RecipeForm
 import logging
 
@@ -128,3 +128,14 @@ def add_recipes(request):
         message = 'Заполните данные'
 
     return render(request, 'my_app/add_recipe_form.html', {'form': form, 'message': message})
+
+
+def show_items(request):
+    items = Item.objects.all()
+    context = {'title': 'Список номенклатуры',
+               'columns': ('Наименование',),
+               'items': items
+               }
+    return render(request, 'my_app/show_items.html', context)
+
+

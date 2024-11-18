@@ -24,6 +24,7 @@ class Category(models.Model):
 class Work(models.Model):
     name = models.CharField(max_length=100, unique=True)
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
+    modified_date = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
         return self.name
@@ -32,6 +33,10 @@ class Work(models.Model):
 class Item(models.Model):
     name = models.CharField(max_length=100, unique=True)
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
+    modified_date = models.DateTimeField(auto_now_add=True, editable=False)
+
+    def __str__(self):
+        return self.name
 
 
 class Operation(models.Model):
@@ -39,11 +44,17 @@ class Operation(models.Model):
     position = models.PositiveSmallIntegerField()
     time = models.TimeField()
 
+    def __str__(self):
+        return f'{self.position}. {self.work.name}, {self.time}'
+
 
 class Specification(models.Model):
     operation = models.ForeignKey(Operation, on_delete=models.CASCADE, related_name='operations')
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='items')
     count = models.DecimalField(max_digits=8, decimal_places=2)
+
+    def __str__(self):
+        return f'{self.operation} {self.item.name}, {self.count}'
 
 
 class Recipe(models.Model):
