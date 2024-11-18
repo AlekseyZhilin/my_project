@@ -21,12 +21,39 @@ class Category(models.Model):
         return f'{self.title}'
 
 
+class Work(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    created_date = models.DateTimeField(auto_now_add=True, editable=False)
+
+    def __str__(self):
+        return self.name
+
+
+class Item(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    created_date = models.DateTimeField(auto_now_add=True, editable=False)
+
+
+class Operation(models.Model):
+    work = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='works')
+    position = models.PositiveSmallIntegerField()
+    time = models.TimeField()
+
+
+class Specification(models.Model):
+    operation = models.ForeignKey(Operation, on_delete=models.CASCADE, related_name='operations')
+    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='items')
+    count = models.DecimalField(max_digits=8, decimal_places=2)
+
+
 class Recipe(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='recipes')
     title = models.CharField(max_length=100, unique=True)
     description = models.TextField(default='')
     cooking_steps = models.TextField()
     cooking_time = models.TimeField()
+    works = models.ManyToManyField(Operation, related_name='operations_recipes')
+    materials = models.ManyToManyField(Specification, related_name='specification_recipes')
     image = models.ImageField(default='')
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, related_name='authors', default=None, null=True)
     published = models.BooleanField(default=True)

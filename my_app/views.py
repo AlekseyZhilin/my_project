@@ -1,3 +1,4 @@
+from django.db import IntegrityError
 from django.db.models import Count
 from django.shortcuts import render
 from . models import Author, Category, Recipe
@@ -31,7 +32,7 @@ def count_recipe_author(request):
         form = SelectPramForm(request.POST)
         if form.is_valid():
             count_recipe = form.cleaned_data['count_recipe']
-            query_res = (Author.objects.values('name').annotate(total=Count('authors__id'))
+            query_res = (Author.objects.values('name').annotate(total=Count('id'))
                          .filter(total__gte=count_recipe, authors__published__exact=True)
                          .order_by('-total'))
             content = {
@@ -109,11 +110,18 @@ def add_recipes(request):
                                 author=author, published=published,
                                 image=image)
                 recipe.save()
-                message = 'Данные сохранены'
+                message = f'Рецепт {title} записан'
+                logger.info(message)
+            except IntegrityError as err:
+                logger.warning(err)
+                message = f'Наименование {title} уже существует'
             except Exception as err:
+                logger.warning(err)
                 message = 'Данные не сохранены'
+
         else:
-            message = 'Неверные данные'
+            message = 'Неточные данные'
+            logger.info(message)
 
     else:
         form = RecipeForm()
