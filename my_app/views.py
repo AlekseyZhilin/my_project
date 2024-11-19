@@ -10,10 +10,15 @@ logger = logging.getLogger(__name__)
 
 
 def index(request):
-    context = {'title': 'Главная страница',
-               'content': 'Здравствуйте, добро пожаловать на главную страницу сайта',
-               }
+
     logger.debug('открытие стартовой страницы')
+
+    recipes = Recipe.objects.all()[:5]
+    context = {'title': 'Главная страница',
+               'context': 'Здравствуйте, добро пожаловать на главную страницу сайта',
+               'columns': ('Наименование', 'Описание', 'Время приготовления', 'Опубликован', 'Создан'),
+               'recipes': recipes
+               }
 
     return render(request, 'my_app/index.html', context)
 
@@ -21,6 +26,7 @@ def index(request):
 def show_authors(request):
     authors = Author.objects.all()
     context = {'title': 'Список авторов',
+               'context': 'Список авторов',
                'columns': ('Имя', 'Возраст', 'Почта'),
                'authors': authors
                }
@@ -53,6 +59,8 @@ def count_recipe_author(request):
 def show_categories(request):
     categories = Category.objects.all()
     context = {'title': 'Список категорий',
+               'context': 'Список категорий',
+               'columns': ('Наименование', 'Описание'),
                'categories': categories
                }
     return render(request, 'my_app/show_categories.html', context)
@@ -85,6 +93,8 @@ def add_category(request):
 def show_recipes(request):
     recipes = Recipe.objects.all()
     context = {'title': 'Список рецептов',
+               'context': 'Список рецептов',
+               'columns': ('Наименование', 'Описание', 'Время приготовления', 'Опубликован', 'Создан'),
                'recipes': recipes
                }
     return render(request, 'my_app/show_recipes.html', context)

@@ -6,9 +6,10 @@ class Command(BaseCommand):
     help = "Create menu"
 
     def handle(self, *args, **kwargs):
-        menu_item = [Menu(name='Авторы', url='/authors/show', position=1),
-                     Menu(name='Категории', url='/categories/show', position=2),
-                     Menu(name='Рецепты', url='/recipes/show', position=3),
+        menu_item = [Menu(name='Главная', url='/', position=1),
+                     Menu(name='Авторы', url='/authors/show', position=2),
+                     Menu(name='Категории', url='/categories/show', position=3),
+                     Menu(name='Рецепты', url='/recipes/show', position=4),
                      ]
         Menu.objects.bulk_create(menu_item)
         self.stdout.write(f'Пункты меню добавлены')

@@ -5,5 +5,32 @@
 {% endblock %}
 
 {% block content %}
-    {{ content }}
+    <div class="page-head">
+        <h3>{{ context }}</h3>
+    </div>
+    {% if recipes %}
+        <p>Пять случайных рецептов</p>
+        <table>
+            <tr>
+                {% for name in columns %}
+                    <td class="table_head">{{ name }}</td>
+                {% endfor %}
+            </tr>
+            {% for recipe in recipes %}
+            <tr>
+                <td>{{ recipe.title }}</td>
+                <td>{{ recipe.description }}</td>
+                <td>{{ recipe.cooking_time }}</td>
+                {% if recipe.published %}
+                    <td>Да</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                <td>{{ recipe.created_date }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <div> <p> К сожалению, рецептов пока нет </p> </div>
+    {% endif %}
 {% endblock %}

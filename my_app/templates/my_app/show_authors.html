@@ -5,6 +5,9 @@
 {% endblock %}
 
 {% block content %}
+    <div class="page-head">
+        <h3>{{ context }}</h3>
+    </div>
     {% if authors %}
         <table>
             <tr>
@@ -12,7 +15,6 @@
                     <td class="table_head">{{ name }}</td>
                 {% endfor %}
             </tr>
-
             {% for author in authors %}
             <tr>
                 <td>{{ author.name }}</td>

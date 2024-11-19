@@ -5,14 +5,27 @@
 {% endblock %}
 
 {% block content %}
+    <div class="page-head">
+        <h3>{{ context }}</h3>
+    </div>
     {% if recipes %}
         <table>
+            <tr>
+                {% for name in columns %}
+                    <td class="table_head">{{ name }}</td>
+                {% endfor %}
+            </tr>
             {% for recipe in recipes %}
             <tr>
                 <td>{{ recipe.title }}</td>
                 <td>{{ recipe.description }}</td>
-                <td>{{ recipe.published }}</td>
-            </tr>
+                <td>{{ recipe.cooking_time }}</td>
+                {% if recipe.published %}
+                    <td>Да</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                <td>{{ recipe.created_date }}</td>
             {% endfor %}
         </table>
     {% else %}

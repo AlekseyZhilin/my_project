@@ -5,8 +5,16 @@
 {% endblock %}
 
 {% block content %}
+    <div class="page-head">
+        <h3>{{ context }}</h3>
+    </div>
     {% if categories %}
         <table>
+            <tr>
+                {% for name in columns %}
+                    <td class="table_head">{{ name }}</td>
+                {% endfor %}
+            </tr>
             {% for category in categories %}
             <tr>
                 <td>{{ category.title }}</td>
