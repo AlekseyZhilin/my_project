@@ -8,7 +8,7 @@ class SelectPramForm(forms.Form):
 
 class CategoryForm(forms.Form):
     title = forms.CharField(max_length=100, label='Наименование')
-    description = forms.CharField(label='Описание')
+    description = forms.CharField(label='Описание', required=False)
 
 
 class RecipeForm(forms.Form):

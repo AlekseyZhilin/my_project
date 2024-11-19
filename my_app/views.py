@@ -1,6 +1,6 @@
 from django.db import IntegrityError
 from django.db.models import Count
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from . models import Author, Category, Recipe, Item, Work
 from . forms import SelectPramForm, CategoryForm, RecipeForm
 import logging
@@ -78,6 +78,7 @@ def add_category(request):
                 category = Category(title=title, description=description)
                 category.save()
                 message = f'Категория {title} сохранена'
+                return redirect('/categories/show', message)
             else:
                 message = f'Категория {title} уже существует'
         else:
@@ -85,9 +86,13 @@ def add_category(request):
         logger.debug(message)
     else:
         form = CategoryForm()
-        message = 'Заполните данные'
+        message = 'Заполните данные новой категории'
+        context = {'form': form,
+                   'title': 'AddCategories',
+                   'message': message,
+                   }
 
-    return render(request, 'my_app/enter_param_form.html', {'form': form, 'message': message})
+    return render(request, 'my_app/enter_param_form.html', context)
 
 
 def show_recipes(request):
@@ -137,7 +142,11 @@ def add_recipes(request):
         form = RecipeForm()
         message = 'Заполните данные'
 
-    return render(request, 'my_app/add_recipe_form.html', {'form': form, 'message': message})
+    context = {'form': form,
+               'title': 'AddRecipes',
+               'message': message,
+               }
+    return render(request, 'my_app/add_recipe_form.html', context)
 
 
 def show_items(request):
