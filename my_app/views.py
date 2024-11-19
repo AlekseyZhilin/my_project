@@ -77,8 +77,8 @@ def add_category(request):
             if value_in_db is None:
                 category = Category(title=title, description=description)
                 category.save()
-                message = f'Категория {title} сохранена'
-                return redirect('/categories/show', message)
+                # message = f'Категория {title} сохранена'
+                return redirect('/categories/show')
             else:
                 message = f'Категория {title} уже существует'
         else:
@@ -87,10 +87,9 @@ def add_category(request):
     else:
         form = CategoryForm()
         message = 'Заполните данные новой категории'
-        context = {'form': form,
-                   'title': 'AddCategories',
-                   'message': message,
-                   }
+    context = {'form': form,
+               'title': 'AddCategories', 'message': message,
+               }
 
     return render(request, 'my_app/enter_param_form.html', context)
 
