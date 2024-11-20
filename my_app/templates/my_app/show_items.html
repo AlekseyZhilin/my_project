@@ -6,6 +6,7 @@
 
 {% block content %}
     <div class="page-head">
+        <p><a href="/items_work/items/add" target="_blank">Добавить ингридиент</a></p>
         <h3>{{ context }}</h3>
     </div>
     {% if items %}
@@ -18,6 +19,7 @@
             {% for item in items %}
             <tr>
                 <td>{{ item.name }}</td>
+                <td>{{ item.unit_measurement }}</td>
             </tr>
             {% endfor %}
         </table>

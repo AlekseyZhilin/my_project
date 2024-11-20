@@ -2,7 +2,7 @@ from django.db import IntegrityError
 from django.db.models import Count
 from django.shortcuts import render, redirect
 from . models import Author, Category, Recipe, Item, Work
-from . forms import SelectPramForm, CategoryForm, RecipeForm
+from . forms import SelectPramForm, CategoryForm, RecipeForm, ItemForm
 import logging
 
 
@@ -151,9 +151,41 @@ def add_recipes(request):
 def show_items(request):
     items = Item.objects.all()
     context = {'title': 'Список номенклатуры',
-               'columns': ('Наименование',),
+               'context': 'Список ингридиентов',
+               'columns': ('Наименование', 'Единица измерения'),
                'items': items
                }
     return render(request, 'my_app/show_items.html', context)
 
 
+def add_item(request):
+    if request.method == 'POST':
+        form = ItemForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            unit_measurement = form.cleaned_data['unit_measurement']
+            try:
+                item = Item(name=name, unit_measurement=unit_measurement)
+                item.save()
+                logger.info(f'Записано. item {name}')
+
+                return redirect('/items_work/items/show')
+            except IntegrityError as err:
+                logger.warning(err)
+                message = f'Наименование {name} уже существует'
+            except Exception as err:
+                logger.warning(err)
+                message = 'Данные не сохранены'
+        else:
+            message = 'Неточные данные'
+            logger.info(message)
+    else:
+        form = ItemForm()
+        message = 'Добавление ингридиента'
+
+    context = {'form': form,
+               'title': 'AddItems',
+               'message': message,
+               }
+
+    return render(request, 'my_app/enter_param_form.html', context)

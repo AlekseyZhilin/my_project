@@ -30,8 +30,12 @@ class Work(models.Model):
         return self.name
 
 
+UNIT_MEASURE = (('кг', 'кг'), ('шт', 'шт'), ('л', 'л'))
+
+
 class Item(models.Model):
     name = models.CharField(max_length=100, unique=True)
+    unit_measurement = models.CharField(max_length=20, default=UNIT_MEASURE[0][0])
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
     modified_date = models.DateTimeField(auto_now_add=True, editable=False)
 

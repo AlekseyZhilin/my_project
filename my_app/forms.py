@@ -1,5 +1,5 @@
 from django import forms
-from . models import Category
+from . models import Category, UNIT_MEASURE
 
 
 class SelectPramForm(forms.Form):
@@ -22,3 +22,12 @@ class RecipeForm(forms.Form):
     cooking_time = forms.TimeField(input_formats=['%H:%M'], initial='00:00', label='Время приготовления')
     image = forms.ImageField(label='Изображение', required=False)
     published = forms.BooleanField(label='Опубликовать', required=False)
+
+
+class ItemForm(forms.Form):
+    name = forms.CharField(max_length=100, label='Наименование')
+    unit_measurement = forms.ChoiceField(choices=UNIT_MEASURE, label='Единица измерения')
+
+
+class WorkForm(forms.Form):
+    name = forms.CharField(max_length=100, label='Наименование')

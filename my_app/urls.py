@@ -2,7 +2,7 @@ from django.urls import path
 from . views import (index,
                      show_authors, count_recipe_author,
                      show_categories, add_category,
-                     show_recipes, add_recipes, show_items
+                     show_recipes, add_recipes, show_items, add_item
                      )
 
 urlpatterns = [
@@ -13,5 +13,6 @@ urlpatterns = [
     path('categories/add', add_category, name='add_category'),
     path('recipes/show', show_recipes, name='Показать рецепты'),
     path('recipes/add', add_recipes, name='Добавить рецепт'),
-    path('recipes/items/show', show_items, name='Показать номенклатуру'),
+    path('items_work/items/show', show_items, name='Показать номенклатуру'),
+    path('items_work/items/add', add_item, name='Добавить ингридиент'),
 ]
