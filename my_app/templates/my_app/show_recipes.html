@@ -27,6 +27,7 @@
                     <td></td>
                 {% endif %}
                 <td>{{ recipe.created_date }}</td>
+                <td><a href="{% url 'find_recipe' recipe_pk=recipe.pk %}">{{ recipe.title }}</a></td>
             {% endfor %}
         </table>
     {% else %}

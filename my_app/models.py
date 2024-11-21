@@ -43,21 +43,15 @@ class Item(models.Model):
         return f'{self.name}, {self.unit_measurement}'
 
 
-class Operation(models.Model):
-    work = models.ForeignKey(Work, on_delete=models.CASCADE, related_name='works')
-    position = models.PositiveSmallIntegerField()
-    time = models.TimeField()
-
-    def __str__(self):
-        return f'{self.position}. {self.work.name}, {self.time}'
-
-
 class Specification(models.Model):
-    item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='items')
+    name = models.CharField(max_length=100, default='', blank=True)
+    item = models.ForeignKey(Item, on_delete=models.SET_DEFAULT, related_name='items', default=None)
     count = models.DecimalField(max_digits=8, decimal_places=2)
+    created_date = models.DateTimeField(auto_now_add=True, editable=False)
+    modified_date = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
-        return f'{self.operation} {self.item.name}, {self.count}'
+        return self.name
 
 
 class Recipe(models.Model):
@@ -66,7 +60,7 @@ class Recipe(models.Model):
     description = models.TextField(default=' ', blank=True)
     cooking_steps = models.CharField(max_length=200, default='')
     cooking_time = models.TimeField()
-    #items = models.ForeignKey(Specification, on_delete=models.CASCADE, related_name='specification_recipes', null=True, default=None)
+    #items = models.OneToOneField(Specification, on_delete=models.CASCADE, related_name='specification_recipes', default=None)
     image = models.ImageField(default='', blank=True)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, related_name='authors', default=None, null=True)
     published = models.BooleanField(default=True)

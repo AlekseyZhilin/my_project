@@ -7,6 +7,7 @@
 {% block content %}
     <div class="form_content">
         <form action="" method="post" class="prod-form">
+            {% csrf_token %}
             <div class="prod-message"> <p> {{ message }}</p> </div>
             <div class="prod-float-on">
                 <div class="prod-col-left-30">

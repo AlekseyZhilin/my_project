@@ -1,7 +1,7 @@
 from django.db import IntegrityError
 from django.db.models import Count
-from django.shortcuts import render, redirect
-from . models import Author, Category, Recipe, Item, Work
+from django.shortcuts import render, redirect, HttpResponse
+from . models import Author, Category, Recipe, Item
 from . forms import SelectPramForm, CategoryForm, RecipeForm, ItemForm
 import logging
 
@@ -98,7 +98,7 @@ def show_recipes(request):
     recipes = Recipe.objects.all()
     context = {'title': 'Список рецептов',
                'context': 'Список рецептов',
-               'columns': ('Наименование', 'Описание', 'Время приготовления', 'Опубликован', 'Создан'),
+               'columns': ('Наименование', 'Описание', 'Время приготовления', 'Опубликован', 'Создан', 'Ссылка'),
                'recipes': recipes
                }
     return render(request, 'my_app/show_recipes.html', context)
@@ -126,6 +126,7 @@ def add_recipes(request):
                 recipe.save()
                 message = f'Рецепт {title} записан'
                 logger.info(message)
+                return redirect('/recipes/show')
             except IntegrityError as err:
                 logger.warning(err)
                 message = f'Наименование {title} уже существует'
@@ -146,6 +147,15 @@ def add_recipes(request):
                'message': message,
                }
     return render(request, 'my_app/add_recipe_form.html', context)
+
+
+def find_recipe(request, recipe_pk: int):
+    recipe = Recipe.objects.filter(pk=recipe_pk).first()
+    context = {'recipe': recipe,
+               'title': recipe.title,
+               'recipe_pk': recipe_pk,
+               }
+    return render(request, 'my_app/show_recipe_pk.html', context)
 
 
 def show_items(request):
