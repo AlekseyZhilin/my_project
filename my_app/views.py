@@ -96,7 +96,7 @@ def show_recipes(request):
     recipes = Recipe.objects.all()
     context = {'title': 'Список рецептов',
                'context': 'Список рецептов',
-               'columns': ('Наименование', 'Описание', 'Время приготовления', 'Опубликован', 'Создан', 'Ссылка'),
+               'columns': ('Наименование', 'Описание', 'Время приготовления', 'Опубликован', 'Создан', 'Изменить'),
                'recipes': recipes
                }
     return render(request, 'my_app/show_recipes.html', context)

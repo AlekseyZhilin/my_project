@@ -8,7 +8,7 @@ class SelectPramForm(forms.Form):
 
 class CategoryForm(forms.Form):
     title = forms.CharField(max_length=100, label='Наименование')
-    description = forms.CharField(label='Описание', required=False)
+    description = forms.CharField(label='Описание', required=False, widget=forms.Textarea)
 
 
 class RecipeForm(forms.Form):
@@ -18,7 +18,7 @@ class RecipeForm(forms.Form):
     )
     title = forms.CharField(max_length=100, label='Наименование')
     description = forms.CharField(label='Описание', required=False)
-    cooking_steps = forms.CharField()
+    cooking_steps = forms.CharField(widget=forms.Textarea, label='Шаги приготовления')
     cooking_time = forms.TimeField(input_formats=['%H:%M'], initial='00:00', label='Время приготовления')
     image = forms.ImageField(label='Изображение', required=False)
     published = forms.BooleanField(label='Опубликовать', required=False)

@@ -13,7 +13,7 @@ class Author(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=100, unique=True)
-    description = models.TextField(default='')
+    description = models.TextField(default='', blank=True)
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
     modified_date = models.DateTimeField(auto_now_add=True, editable=False)
 
@@ -60,7 +60,6 @@ class Recipe(models.Model):
     description = models.TextField(default=' ', blank=True)
     cooking_steps = models.CharField(max_length=200, default='')
     cooking_time = models.TimeField()
-    #items = models.OneToOneField(Specification, on_delete=models.CASCADE, related_name='specification_recipes', default=None)
     image = models.ImageField(default='', blank=True)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, related_name='authors', default=None, null=True)
     published = models.BooleanField(default=True)
