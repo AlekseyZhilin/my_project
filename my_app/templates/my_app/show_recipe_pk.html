@@ -1,9 +1,30 @@
-{% extends 'base.html' %}
+{% extends 'my_app/base_form.html' %}
 
 {% block title %}
-    {{ title }}
+    {{ recipe_pk }}
 {% endblock %}
 
 {% block content %}
-    {{ recipe_pk }}
+    <div class="form_content">
+        <form action="" method="post" class="prod-form">
+            {% csrf_token %}
+            <div class="prod-message"> <p> {{ message }}</p> </div>
+            <div class="prod-float-on">
+                <div class="prod-col-left-30">
+                    {{ form.image }}
+                </div>
+                <div class="prod-col-right-70">
+                    <div>{{ form.title.label }} {{ form.title }}</div>
+                    <div>{{ form.category.label }} {{ form.category }}</div>
+                    <div>{{ form.description.label }} {{ form.description }}</div>
+                    <div>{{ form.cooking_steps.label }} {{ form.cooking_steps }}</div>
+                    <div>{{ form.cooking_time.label }} {{ form.cooking_time }}</div>
+                </div>
+            </div>
+            <div class="prod-float-off">
+                <p>{{ form.published.label }} {{ form.published }}</p>
+            </div>
+            <input type="submit" class="input_submit" value="Обновить">
+        </form>
+    </div>
 {% endblock %}

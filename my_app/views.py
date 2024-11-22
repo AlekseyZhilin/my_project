@@ -1,16 +1,14 @@
 from django.db import IntegrityError
 from django.db.models import Count
 from django.shortcuts import render, redirect, HttpResponse
-from . models import Author, Category, Recipe, Item
-from . forms import SelectPramForm, CategoryForm, RecipeForm, ItemForm
+from .models import Author, Category, Recipe, Item
+from .forms import SelectPramForm, CategoryForm, RecipeForm, ItemForm
 import logging
-
 
 logger = logging.getLogger(__name__)
 
 
 def index(request):
-
     logger.debug('открытие стартовой страницы')
 
     recipes = Recipe.objects.all()[:5]
@@ -151,7 +149,15 @@ def add_recipes(request):
 
 def find_recipe(request, recipe_pk: int):
     recipe = Recipe.objects.filter(pk=recipe_pk).first()
-    context = {'recipe': recipe,
+    form = RecipeForm({'title': recipe.title,
+                       'category': recipe.category.pk,
+                       'description': recipe.description,
+                       'cooking_steps': recipe.cooking_steps,
+                       'cooking_time': recipe.cooking_time,
+                       'image': recipe.image,
+                       'published': recipe.published,
+                       })
+    context = {'form': form,
                'title': recipe.title,
                'recipe_pk': recipe_pk,
                }
