@@ -11,9 +11,9 @@
             <div class="prod-message"> <p> {{ message }}</p> </div>
             <div class="prod-float-on">
                 <div class="prod-col-left-30">
-                    {{ form.image }}
-                    {% if form.image %}
-                        <img src="{{ form.image.url }} width=50">
+                    {{ recipe.image }}
+                    {% if recipe.image %}
+                        <img src="{{ recipe.image.url }}" width=220 alt="{{ recipe.image.name }}">
                     {% endif %}
                 </div>
                 <div class="prod-col-right-70">

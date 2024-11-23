@@ -207,6 +207,7 @@ def find_recipe(request, recipe_pk: int):
                'message': message,
                'title': recipe.title,
                'recipe_pk': recipe_pk,
+               'recipe': recipe,
                }
 
     return render(request, 'my_app/show_recipe_pk.html', context)
