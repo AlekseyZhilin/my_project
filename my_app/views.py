@@ -175,13 +175,13 @@ def find_recipe(request, recipe_pk: int):
                 return redirect('/recipes/show')
             except IntegrityError as err:
                 logger.warning(err)
-                message = f'Наименование {title} уже существует'
+                message = f'Наименование {title} уже существует, или проблема изображения'
             except Exception as err:
                 logger.warning(err)
                 message = f'Данные не сохранены {err}'
 
         else:
-            message = 'Неточные данные'
+            message = 'Не точные данные. Время приготовления в должно иметь формат 00:00'
             logger.info(message)
 
     else:
@@ -190,7 +190,7 @@ def find_recipe(request, recipe_pk: int):
                            'category': recipe.category.pk,
                            'description': recipe.description,
                            'cooking_steps': recipe.cooking_steps,
-                           'cooking_time': recipe.cooking_time,
+                           'cooking_time': recipe.cooking_time.strftime('%H:%M'),
                            'image': recipe.image,
                            'published': recipe.published,
                            })
