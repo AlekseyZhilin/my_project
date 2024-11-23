@@ -14,7 +14,7 @@ def index(request):
     recipes = Recipe.objects.all()[:5]
     context = {'title': 'Главная страница',
                'context': 'Здравствуйте, добро пожаловать на главную страницу сайта',
-               'columns': ('Наименование', 'Описание', 'Время приготовления', 'Опубликован', 'Создан'),
+               'columns': ('Наименование', 'Описание', 'Время приготовления', 'Опубликован', 'Создан', 'Изменить', 'Удалить'),
                'recipes': recipes
                }
 
@@ -168,7 +168,6 @@ def find_recipe(request, recipe_pk: int):
 def delete_recipe(request, recipe_pk):
     recipe = Recipe.objects.filter(pk=recipe_pk).first()
     if request.method == 'POST':
-        form = RecipeForm(request.POST)
         logger.info(f'Рецепт {recipe.title} удален')
         recipe.delete()
         return redirect('/recipes/show')
