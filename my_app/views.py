@@ -150,18 +150,56 @@ def add_recipes(request):
 
 def find_recipe(request, recipe_pk: int):
     recipe = Recipe.objects.filter(pk=recipe_pk).first()
-    form = RecipeForm({'title': recipe.title,
-                       'category': recipe.category.pk,
-                       'description': recipe.description,
-                       'cooking_steps': recipe.cooking_steps,
-                       'cooking_time': recipe.cooking_time,
-                       'image': recipe.image,
-                       'published': recipe.published,
-                       })
+    if request.method == 'POST':
+        form = RecipeForm(request.POST)
+        if form.is_valid():
+            category = form.cleaned_data['category']
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            cooking_steps = form.cleaned_data['cooking_steps']
+            cooking_time = form.cleaned_data['cooking_time']
+            image = form.cleaned_data['image']
+            published = form.cleaned_data['published']
+
+            try:
+                Recipe.objects.filter(pk=recipe_pk).update(
+                    title=title,
+                    category=category,
+                    description=description,
+                    cooking_steps=cooking_steps,
+                    cooking_time=cooking_time,
+                    published=published,
+                )
+                message = f'Рецепт {title} обновлен'
+                logger.info(message)
+                return redirect('/recipes/show')
+            except IntegrityError as err:
+                logger.warning(err)
+                message = f'Наименование {title} уже существует'
+            except Exception as err:
+                logger.warning(err)
+                message = f'Данные не сохранены {err}'
+
+        else:
+            message = 'Неточные данные'
+            logger.info(message)
+
+    else:
+        message = f'Изменение рецепта {recipe.title}'
+        form = RecipeForm({'title': recipe.title,
+                           'category': recipe.category.pk,
+                           'description': recipe.description,
+                           'cooking_steps': recipe.cooking_steps,
+                           'cooking_time': recipe.cooking_time,
+                           'image': recipe.image,
+                           'published': recipe.published,
+                           })
     context = {'form': form,
+               'message': message,
                'title': recipe.title,
                'recipe_pk': recipe_pk,
                }
+
     return render(request, 'my_app/show_recipe_pk.html', context)
 
 
