@@ -96,7 +96,8 @@ def show_recipes(request):
     recipes = Recipe.objects.all()
     context = {'title': 'Список рецептов',
                'context': 'Список рецептов',
-               'columns': ('Наименование', 'Описание', 'Время приготовления', 'Опубликован', 'Создан', 'Изменить'),
+               'columns': (
+               'Наименование', 'Описание', 'Время приготовления', 'Опубликован', 'Создан', 'Изменить', 'Удалить'),
                'recipes': recipes
                }
     return render(request, 'my_app/show_recipes.html', context)
@@ -162,6 +163,23 @@ def find_recipe(request, recipe_pk: int):
                'recipe_pk': recipe_pk,
                }
     return render(request, 'my_app/show_recipe_pk.html', context)
+
+
+def delete_recipe(request, recipe_pk):
+    recipe = Recipe.objects.filter(pk=recipe_pk).first()
+    if request.method == 'POST':
+        form = RecipeForm(request.POST)
+        logger.info(f'Рецепт {recipe.title} удален')
+        recipe.delete()
+        return redirect('/recipes/show')
+
+    form = RecipeForm()
+    context = {'form': form,
+               'message': f'Удалить рецепт {recipe.title} ?',
+               'title': recipe.title,
+               'recipe_pk': recipe_pk,
+               }
+    return render(request, 'my_app/delete_recipe_pk.html', context)
 
 
 def show_items(request):

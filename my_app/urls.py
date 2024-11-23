@@ -2,7 +2,7 @@ from django.urls import path
 from . views import (index,
                      show_authors, count_recipe_author,
                      show_categories, add_category,
-                     show_recipes, add_recipes, find_recipe,
+                     show_recipes, add_recipes, find_recipe, delete_recipe,
                      show_items, add_item
                      )
 
@@ -15,6 +15,7 @@ urlpatterns = [
     path('recipes/show', show_recipes, name='show_recipes'),
     path('recipes/add', add_recipes, name='add_recipes'),
     path('recipes/find/<int:recipe_pk>/', find_recipe, name='find_recipe'),
+    path('recipes/delete/<int:recipe_pk>/', delete_recipe, name='delete_recipe'),
     path('items_work/items/show', show_items, name='show_items'),
     path('items_work/items/add', add_item, name='add_item'),
 ]

@@ -28,6 +28,7 @@
                 {% endif %}
                 <td>{{ recipe.created_date }}</td>
                 <td><a href="{% url 'find_recipe' recipe_pk=recipe.pk %}">{{ recipe.title }}</a></td>
+                <td><a href="{% url 'delete_recipe' recipe_pk=recipe.pk %}">Удалить</a></td>
             {% endfor %}
         </table>
     {% else %}
