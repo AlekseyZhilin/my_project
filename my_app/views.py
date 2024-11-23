@@ -1,3 +1,5 @@
+from django.core.exceptions import ValidationError
+from django.core.files.storage import FileSystemStorage
 from django.db import IntegrityError
 from django.db.models import Count
 from django.shortcuts import render, redirect, HttpResponse
@@ -105,7 +107,7 @@ def show_recipes(request):
 
 def add_recipes(request):
     if request.method == 'POST':
-        form = RecipeForm(request.POST)
+        form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
             category = form.cleaned_data['category']
             title = form.cleaned_data['title']
@@ -114,6 +116,9 @@ def add_recipes(request):
             cooking_time = form.cleaned_data['cooking_time']
             image = form.cleaned_data['image']
             published = form.cleaned_data['published']
+            if image is not None:
+                fs = FileSystemStorage()
+                fs.save(image.name, image)
 
             author = Author.objects.filter(pk=1).first()
             try:
@@ -160,6 +165,9 @@ def find_recipe(request, recipe_pk: int):
             cooking_time = form.cleaned_data['cooking_time']
             image = form.cleaned_data['image']
             published = form.cleaned_data['published']
+            # if image is not None:
+            #     fs = FileSystemStorage()
+            #     fs.save(image.name, image)
 
             try:
                 Recipe.objects.filter(pk=recipe_pk).update(
@@ -169,6 +177,7 @@ def find_recipe(request, recipe_pk: int):
                     cooking_steps=cooking_steps,
                     cooking_time=cooking_time,
                     published=published,
+                    # image=image,
                 )
                 message = f'Рецепт {title} обновлен'
                 logger.info(message)
@@ -181,7 +190,7 @@ def find_recipe(request, recipe_pk: int):
                 message = f'Данные не сохранены {err}'
 
         else:
-            message = 'Не точные данные. Время приготовления в должно иметь формат 00:00'
+            message = 'Не точные данные. Время приготовления должно иметь формат 00:00'
             logger.info(message)
 
     else:

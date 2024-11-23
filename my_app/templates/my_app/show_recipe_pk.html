@@ -12,6 +12,9 @@
             <div class="prod-float-on">
                 <div class="prod-col-left-30">
                     {{ form.image }}
+                    {% if form.image %}
+                        <img src="{{ form.image.url }} width=50">
+                    {% endif %}
                 </div>
                 <div class="prod-col-right-70">
                     <div>{{ form.title.label }} {{ form.title }}</div>

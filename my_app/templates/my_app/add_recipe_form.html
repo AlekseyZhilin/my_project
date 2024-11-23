@@ -6,7 +6,7 @@
 
 {% block content %}
     <div class="form_content">
-        <form action="" method="post" class="prod-form">
+        <form action="" method="post" class="prod-form" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="prod-message"> <p> {{ message }}</p> </div>
             <div class="prod-float-on">
