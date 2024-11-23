@@ -4,7 +4,7 @@ from django.db import IntegrityError
 from django.db.models import Count
 from django.shortcuts import render, redirect, HttpResponse
 from .models import Author, Category, Recipe, Item
-from .forms import SelectPramForm, CategoryForm, RecipeForm, ItemForm
+from .forms import SelectPramForm, AuthorForm, CategoryForm, RecipeForm, ItemForm
 import logging
 
 logger = logging.getLogger(__name__)
@@ -31,6 +31,43 @@ def show_authors(request):
                'authors': authors
                }
     return render(request, 'my_app/show_authors.html', context)
+
+
+def add_author(request):
+    if request.method == 'POST':
+        form = AuthorForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data['name']
+            email = form.cleaned_data['email']
+            age = form.cleaned_data['age']
+            description = form.cleaned_data['description']
+
+            try:
+                author = Author(name=name, email=email, age=age, description=description)
+                author.save()
+                message = f'Автор {name} записан'
+                logger.info(message)
+                return redirect('/authors/show')
+            except IntegrityError as err:
+                logger.warning(err)
+                message = f'Имя {name} уже существует'
+            except Exception as err:
+                logger.warning(err)
+                message = 'Данные не сохранены'
+
+        else:
+            message = 'Неточные данные'
+            logger.info(message)
+
+    else:
+        form = AuthorForm()
+        message = 'Заполните данные автора'
+
+    context = {'form': form,
+               'title': 'AddAuthors',
+               'message': message,
+               }
+    return render(request, 'my_app/enter_param_form.html', context)
 
 
 def count_recipe_author(request):
@@ -156,7 +193,7 @@ def add_recipes(request):
 def find_recipe(request, recipe_pk: int):
     recipe = Recipe.objects.filter(pk=recipe_pk).first()
     if request.method == 'POST':
-        form = RecipeForm(request.POST)
+        form = RecipeForm(request.POST, request.FILES)
         if form.is_valid():
             category = form.cleaned_data['category']
             title = form.cleaned_data['title']

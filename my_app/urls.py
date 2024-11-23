@@ -1,6 +1,6 @@
 from django.urls import path
 from . views import (index,
-                     show_authors, count_recipe_author,
+                     show_authors, add_author, count_recipe_author,
                      show_categories, add_category,
                      show_recipes, add_recipes, find_recipe, delete_recipe,
                      show_items, add_item
@@ -9,6 +9,7 @@ from . views import (index,
 urlpatterns = [
     path('', index, name='index'),
     path('authors/show', show_authors, name='show_authors'),
+    path('authors/add', add_author, name='add_authors'),
     path('authors/count_recipe', count_recipe_author, name='count_recipe_author'),
     path('categories/show', show_categories, name='show_categories'),
     path('categories/add', add_category, name='add_category'),

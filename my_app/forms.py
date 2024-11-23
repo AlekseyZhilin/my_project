@@ -2,6 +2,13 @@ from django import forms
 from . models import Category, UNIT_MEASURE
 
 
+class AuthorForm(forms.Form):
+    name = forms.CharField(max_length=100, label='Имя')
+    email = forms.EmailField()
+    age = forms.IntegerField(label='Возраст')
+    description = forms.CharField(max_length=100, label='О себе', required=False, widget=forms.Textarea)
+
+
 class SelectPramForm(forms.Form):
     count_recipe = forms.IntegerField(min_value=0, label='Количество рецептов автора')
 

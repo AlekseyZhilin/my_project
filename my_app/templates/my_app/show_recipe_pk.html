@@ -15,6 +15,7 @@
                     {% if recipe.image %}
                         <img src="{{ recipe.image.url }}" width=220 alt="{{ recipe.image.name }}">
                     {% endif %}
+                    {{ form.image }}
                 </div>
                 <div class="prod-col-right-70">
                     <div>{{ form.title.label }} {{ form.title }}</div>

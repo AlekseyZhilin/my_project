@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 
@@ -5,6 +7,7 @@ class Author(models.Model):
     name = models.CharField(max_length=100, unique=True)
     email = models.EmailField()
     age = models.PositiveSmallIntegerField(default=0)
+    description = models.TextField(default='', blank=True)
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
