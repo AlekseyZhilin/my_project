@@ -33,7 +33,7 @@ class Work(models.Model):
         return self.name
 
 
-UNIT_MEASURE = (('кг', 'кг'), ('шт', 'шт'), ('л', 'л'))
+UNIT_MEASURE = (('кг', 'кг'), ('гр', 'гр'), ('шт', 'шт'), ('л', 'л'), ('мл', 'мл'))
 
 
 class Item(models.Model):
