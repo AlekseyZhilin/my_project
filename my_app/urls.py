@@ -3,7 +3,8 @@ from . views import (index,
                      show_authors, add_author, count_recipe_author,
                      show_categories, add_category,
                      show_recipes, add_recipes, find_recipe, delete_recipe,
-                     show_items, add_item
+                     show_items, add_item,
+                     login_view,
                      )
 
 urlpatterns = [
@@ -19,4 +20,5 @@ urlpatterns = [
     path('recipes/delete/<int:recipe_pk>/', delete_recipe, name='delete_recipe'),
     path('items_work/items/show', show_items, name='show_items'),
     path('items_work/items/add', add_item, name='add_item'),
+    path('login/', login_view, name='login_view'),
 ]

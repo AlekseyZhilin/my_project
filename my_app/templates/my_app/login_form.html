@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    {% if message %}
+        <div class="form_message">
+            <h3 class="form_message"> {{ message }} </h3>
+        </div>
+    {% endif %}
+
+    <div class="form_content">
+        <form action="" method="post">
+            {% csrf_token %}
+            <p>
+                <label for="username">username:</label>
+                <input type="text" id="username" name="username">
+            </p>
+            <p>
+                <label for="password">password:</label>
+                <input type="password" id="password" name="password">
+            </p>
+            <input type="submit" class="input-button" value="Зарегистрироваться">
+        </form>
+    </div>
+{% endblock %}

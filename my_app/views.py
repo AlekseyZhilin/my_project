@@ -1,13 +1,36 @@
-from django.core.exceptions import ValidationError
 from django.core.files.storage import FileSystemStorage
 from django.db import IntegrityError
 from django.db.models import Count
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from .models import Author, Category, Recipe, Item
 from .forms import SelectPramForm, AuthorForm, CategoryForm, RecipeForm, ItemForm
+from django.contrib.auth import authenticate, login
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+def login_view(request):
+    context = {'title': 'Аутентификация пользователя',
+               'message': 'Аутентификация пользователя'
+               }
+
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            return redirect('/')
+        return render(request, 'my_app/login_form.html', context)
+
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        login(request, user)
+        logger.info(f'Пользователь {username} зарегистрировался')
+        return redirect('/')
+
+    logger.info(f'Ошибка аутентивикации {username}')
+    context['message'] = 'Ошибка аутентификации'
+    return render(request, 'my_app/login_form.html', context)
 
 
 def index(request):
@@ -157,7 +180,14 @@ def add_recipes(request):
                 fs = FileSystemStorage()
                 fs.save(image.name, image)
 
-            author = Author.objects.filter(pk=1).first()
+            if request.user.is_authenticated:
+                name_auth = request.user.username
+                author = Author.objects.filter(name=name_auth).first()
+                if author is None:
+                    author = Author.objects.filter(pk=1).first()
+            else:
+                author = Author.objects.filter(pk=1).first()
+
             try:
                 recipe = Recipe(category=Category.objects.filter(id=int(category)).first(),
                                 title=title, description=description,
