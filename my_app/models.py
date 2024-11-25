@@ -58,7 +58,7 @@ class Specification(models.Model):
 
 
 class Recipe(models.Model):
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='recipes')
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='recipes', default=None,null=True)
     title = models.CharField(max_length=100, unique=True)
     description = models.TextField(default=' ', blank=True)
     cooking_steps = models.CharField(max_length=200, default='')
