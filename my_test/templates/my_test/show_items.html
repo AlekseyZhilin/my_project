@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="menu_cat">
+        <a href="{% url 'create_item' %}">Добавить номенклатуру</a>
+    </div>
+
+    <h3 class="page-head"> {{ title }} </h3>
+
+    <div class="form_content">
+        <form action="" method="post" class="form-find">
+            {% csrf_token %}
+            <div class="find_text">
+                {{ find_form.element }}
+                <input type="submit" class="input-find" value="Найти">
+            </div>
+        </form>
+    </div>
+
+    {% if find_form.element.value %}
+        <p class="search"> Отбор элементов по: {{ find_form.element.value }}</p>
+    {% endif %}
+
+    {% if elements_table %}
+        <table>
+            <tr class="table_head">
+                {% for name in columns %}
+                    <td class="table_head">{{ name }}</td>
+                {% endfor %}
+            </tr>
+            {% for element in elements_table %}
+                <tr>
+                    <td><a href="{% url 'update_item' item_pk=element.pk %}"> {{ element.name }} </a></td>
+                    <td> {{ element.unit_measurement }} </td>
+                    <td> {{ element.category__name }} </td>
+                    <td> {{ element.is_product|yesno:'да,нет' }} </td>
+                    <td><a href="{% url 'delete_item' item_pk=element.pk %}"> Удалить </a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>К сожелению, номенклатуры пока нет</p>
+    {% endif %}
+
+{% endblock %}

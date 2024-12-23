@@ -1,0 +1,30 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/menu_style.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}" type="text/css">
+    <title>
+        {% block title %}
+            {{ title }}
+        {% endblock %}
+    </title>
+</head>
+<body>
+    <header class="header">
+        <nav>
+            <a class="link_menu" href="{% url 'show_categories' %}">Категории</a>
+            <a class="link_menu" href="{% url 'show_items' %}">Номенклатура</a>
+            <a class="link_menu" href="{% url 'show_specifications' %}">Спецификации</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        {% block content %}
+            <p>Главная страница</p>
+        {% endblock %}
+    </div>
+</body>
+</html>

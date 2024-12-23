@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    {% if message %}
+        <div class="form_message">
+            <h3 class="form_message"> {{ message }} </h3>
+        </div>
+    {% endif %}
+
+    <div class="form_content">
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="head_table">
+                <a href="{% url 'update_specification' spec_pk=spec_pk %}"> Перейти к продукции </a>
+            </div>
+
+            <div class="row_table">
+                <div class="table-col-left">
+                    {{ form.as_div }}
+                </div>
+                <div>
+                    <input type="submit" class="table-col-right" value="Добавить">
+                </div>
+            </div>
+
+            <h4 class="head_table">Материалы</h4>
+            {% if elements_table %}
+                <table>
+                    <tr class="table_head">
+                        {% for name in columns %}
+                            <td class="table_head">{{ name }}</td>
+                        {% endfor %}
+                    </tr>
+                    {% for element in elements_table %}
+                        <tr>
+                            <td><a href="{% url 'update_row' row_pk=element.pk spec_pk=spec_pk %}"> {{ element.item__name }} </a></td>
+                            <td> {{ element.count }} </td>
+                            <td><a href="{% url 'delete_row' row_pk=element.pk spec_pk=spec_pk %}"> Удалить </a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <div>Нет материалов</div>
+            {% endif %}
+
+        </form>
+    </div>
+{% endblock %}

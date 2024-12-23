@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+    {% if message %}
+        <div class="form_message">
+            <h3 class="form_message"> {{ message }} </h3>
+        </div>
+    {% endif %}
+
+    <div class="form_content">
+        <form action="" method="post">
+            {% csrf_token %}
+
+            {% for field in form.visible_fields %}
+                {% if field.errors %}
+                    <ul>
+                        {% for error in field.errors %}
+                            <li><em>{{ error|escape }}</em></li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                <p>
+                    {{ field.label_tag }}
+                    {{ field }}<br>
+                    {{ field.help_text }}
+                </p>
+            {% endfor %}
+
+            <div class="head_table">
+                <a href="{% url 'add_row' spec_pk=spec_pk %}"> Материалы ({{ count_materials }}) шт. </a>
+            </div>
+            <input type="submit" class="input-button" value="Сохранить">
+
+        </form>
+    </div>
+{% endblock %}
